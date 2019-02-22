@@ -1,0 +1,10 @@
+Rayo::Sevilla::1::4
+Athletic::Leganés::2::1
+Valencia::Atlético::1::1
+Girona::Valladolid::0::0
+Eibar::Huesca::1::2
+R.Madrid::Getafe::2::0
+Villareal::R.Sociedad::1::2
+Barcelona::Alavés::3::0
+Betis::Levante::0::3
+Celta::Espanyol::1::1

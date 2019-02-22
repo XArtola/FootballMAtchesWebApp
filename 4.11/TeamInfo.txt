@@ -1,0 +1,27 @@
+Mónaco::Mónaco::Stade Louis II::18525
+Brujas::Bélgica::Jan Breydel::29975
+B
+Atlético::Bélgica::Jan Breydel::29975
+B
+Dortmund::Bélgica::Jan Breydel::29975
+
+Tottenham::Mónaco::Stade Louis II::18525
+PSV::Mónaco::Stade Louis II::18525
+Inter::Mónaco::Stade Louis II::1855
+Barcelona::Mónaco::Stade Louis II::18525
+E
+Roja::Mónaco::Stade Louis II::18525
+Liverpool::Bélgica::Jan Breydel::29975
+Nápoles::Bélgica::Jan Breydel::29975
+
+PSG::Mónaco::Stade Louis II::18525
+Schalke 04::Mónaco::Stade Louis II::18525
+Galatasaray::Bélgica::Jan Breydel::29975
+Oporto::Mónaco::Stade Louis II::18525
+Lokomotiv::Mónaco::Stade Louis II::18525
+Bayern::Mónaco::Stade Louis II::18525
+
+AEK Atenas::Bélgica::Jan Breydel::29975
+Benfica::Mónaco::Stade Louis II::18525
+
+Ajax::Bélgica::Jan Breydel::29975

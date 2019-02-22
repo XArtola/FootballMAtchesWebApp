@@ -1,0 +1,12 @@
+Mónaco::0::4::Brujas
+Atlético::2::0::B. Dortmund
+Tottenham::2::1::PSV
+Inter::1::1::Barcelona
+E. Roja::2::0::Liverpool
+Nápoles::1::1
+::PSG
+Schalke 04::2::0::Galatasaray
+Oporto::4::1
+::Lokomotiv
+Bayern::2::0::AEK Atenas
+Benfica::1::1::Ajax

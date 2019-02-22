@@ -1,0 +1,10 @@
+Radamel FALCAO::32::Delantero::Mónaco
+Adama TRAORE::23::Centrocampista::Mónaco
+Karlo Letica::21::Portero::Brujas
+Adán::31::Portero::Atlético
+Denis Suárez::24::Centrocampista::Barcelona
+Munir::23::Delantero::Barcelona
+Jonas Gonçalves::34::Delantero::Benfica
+Germán Conti::24::Defensa::Benfica
+André Onana::22::Portero::Ajax
+Matthijs de Ligt::19::Defensa::Ajax
