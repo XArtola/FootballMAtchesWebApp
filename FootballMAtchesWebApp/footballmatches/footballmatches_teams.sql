@@ -37,7 +37,7 @@ CREATE TABLE `teams` (
 
 LOCK TABLES `teams` WRITE;
 /*!40000 ALTER TABLE `teams` DISABLE KEYS */;
-INSERT INTO `teams` VALUES ('barcelona','stadium1',1,'color1'),('eibar','stadium3',3,'color3'),('Osasuna','Sadar',0,'Red');
+INSERT INTO `teams` VALUES ('aaa',NULL,2,'n'),('barcelona','stadium1',1,'color1'),('eibar','stadium3',3,'color3'),('Osasuna','Sadar',0,'Red');
 /*!40000 ALTER TABLE `teams` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-02 22:02:28
+-- Dump completed on 2019-05-05 18:23:06

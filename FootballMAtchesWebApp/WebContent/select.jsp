@@ -5,6 +5,12 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<style>
+a{
+text-decoration: none;
+}
+
+</style>
 </head>
 <body>
 

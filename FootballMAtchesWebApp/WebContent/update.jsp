@@ -1,163 +1,301 @@
-<%@ page import="java.sql.*" %>
+<%@ page import="java.sql.*"%>
+<%@ page import="com.zubiri.matches.*"%>
 
 <%
-try
-{
-	Class.forName("com.mysql.jdbc.Driver");  //load driver 
-	
-	Connection con = DriverManager.getConnection(
-			"jdbc:mysql://localhost/footballmatches?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-			"dw18", "dw18");
-	
-	if(request.getParameter("btn_update")!=null) //check button click event not null
-	{
-		int  wonLeagues; 
+	try {
 		
-		String name, stadium, shirtColor;
-		
-		name=request.getParameter("txt_team_name");  //txt_team_name
-		stadium=request.getParameter("txt_team_stadium"); //txt_team_stadium
-		wonLeagues=Integer.parseInt(request.getParameter("txt_team_leagues")); //txt_team_team_leagues
-		shirtColor=request.getParameter("txt_team_shirt"); //txt_team_shirt
-		
-		PreparedStatement pstmt=null; //create statement  
-		
-		pstmt=con.prepareStatement("update teams set name=?, stadium=?, wonLeagues=?, shirtColor=? where name=?"); //sql update query 
-		pstmt.setString(1,name);
-		pstmt.setString(2,stadium);
-		pstmt.setInt(3,wonLeagues);
-		pstmt.setString(4,shirtColor);
-		pstmt.setString(5,name);
-		pstmt.executeUpdate(); //execute query
-		
-		con.close(); //connection close
 
-		out.println("Update Successfully...! Click Back link."); //after update record successfully message
-	}	
-	
-}
-catch(Exception e)
-{
-	out.println(e);
-}
+		if (request.getParameter("btn_update_teams") != null) //check button click event not null
+		{
+			FootballTeam team = new FootballTeam();
+			team.setName(request.getParameter("txt_team_name"));
+			team.setStadium(request.getParameter("txt_team_stadium"));
+			team.setWonLeagues(Integer.parseInt(request.getParameter("txt_team_leagues")));
+			team.setShirtColor(request.getParameter("txt_team_shirt"));
+			
+			/*
+			Class.forName("com.mysql.jdbc.Driver"); //load driver 
 
+			Connection con = DriverManager.getConnection(
+					"jdbc:mysql://localhost/footballmatches?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+					"dw18", "dw18");
+			PreparedStatement pstmt = null; //create statement  
+
+			pstmt = con.prepareStatement(
+					"update teams set name=?, stadium=?, wonLeagues=?, shirtColor=? where name=?"); //sql update query 
+			pstmt.setString(1, request.getParameter("txt_team_name"));
+			pstmt.setString(2, request.getParameter("txt_team_stadium"));
+			pstmt.setInt(3, Integer.parseInt(request.getParameter("txt_team_leagues")));
+			pstmt.setString(4, request.getParameter("txt_team_shirt"));
+			pstmt.setString(5, request.getParameter("txt_team_name"));
+			pstmt.executeUpdate(); //execute query
+			con.close(); //connection close
+			
+			*/
+		}
+		if (request.getParameter("btn_update_players") != null) //check button click event not null
+		{
+			
+			Player player = new Player();
+			
+			player.setName(request.getParameter("txt_player_name"));
+			player.setTeam(request.getParameter("txt_player_team"));
+			player.setAge(Integer.parseInt(request.getParameter("txt_player_age")));
+			player.setHeight(Integer.parseInt(request.getParameter("txt_player_height")));
+			
+			Connect.modifyPlayer(player);
+
+		}
+		if (request.getParameter("btn_update_matches") != null) //check button click event not null
+		{
+			
+			
+			FootballMatch match = new FootballMatch();
+			FootballTeam team = new FootballTeam();
+			FootballTeam team2 = new FootballTeam();
+			
+			team.setName(request.getParameter("txt_matches_lteam"));
+			match.setLocalTeam(team);
+			team2.setName(request.getParameter("txt_matches_vteam"));
+			match.setVisitorTeam(team2);
+			match.setGoalsVisitor(Integer.parseInt(request.getParameter("txt_matches_vgoals")));
+			match.setGoalsLocal(Integer.parseInt(request.getParameter("txt_matches_lgoals")));
+			match.setMatchID(Integer.parseInt(request.getParameter("txt_matches_matchID")));
+			
+			Connect.addMatch(match);
+			
+			/*
+			Class.forName("com.mysql.jdbc.Driver"); //load driver 
+
+			Connection con = DriverManager.getConnection(
+					"jdbc:mysql://localhost/footballmatches?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+					"dw18", "dw18");
+
+			PreparedStatement pstmt_matches = null; //create statement  
+
+			pstmt_matches = con.prepareStatement(
+					"update matches set localTeam=?, visitorTeam=?, goalsLocal=?, goalsVisitor=? where matchID=?"); //sql update query 
+			pstmt_matches.setInt(1, Integer.parseInt(request.getParameter("txt_matches_matchID")));
+			pstmt_matches.setString(2, request.getParameter("txt_matches_vteam"));
+			pstmt_matches.setInt(3, Integer.parseInt(request.getParameter("txt_matches_vgoals")));
+			pstmt_matches.setInt(4, Integer.parseInt(request.getParameter("txt_matches_lgoals")));
+			pstmt_matches.setInt(5, Integer.parseInt(request.getParameter("txt_matches_matchID")));
+			pstmt_matches.executeUpdate(); //execute query
+
+			con.close(); //connection close
+			*/
+			out.println("Update Successfully...! Click Back link."); //after update record successfully message
+
+		}
+	}
+
+	catch (
+
+	Exception e) {
+		out.println(e);
+	}
 %>
 
 <html>
 
-	<head>
-	
-		<title>Update</title>
-		
-	<!--css for div main class and table-->
-	<style type="text/css">
-		
-		.main
-		{
-			width:700px;;
-			margin-left:250px;
-			padding: 10px;
-			border: 5px solid grey;
-			
-		}
-		table
-		{
-			font-family: arial, sans-serif;
-			border-collapse: collapse;
-			width: 600px;
-		}
-		td
-		{
-			border: 5px solid silver;
-			text-align: left;
-			padding: 8px;
-		}
-		</style>	
-		
-	</head>
-	
+<head>
+
+<title>Update</title>
+
+<!--css for div main class and table-->
+<style type="text/css">
+.main {
+	width: 700px;;
+	margin-left: 250px;
+	padding: 10px;
+	border: 5px solid grey;
+}
+
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 600px;
+}
+
+td {
+	border: 5px solid silver;
+	text-align: left;
+	padding: 8px;
+}
+</style>
+
+</head>
+
 <body>
 
 	<div class="main">
 
-	<form method="post" name="myform" ">
-		
-			<h1>Update Record</h1>
-		
-		
-		<table>	
-		   <%
-		try
-		{
-			Class.forName("com.mysql.jdbc.Driver"); //load driver  
-		
-			Connection con = DriverManager.getConnection(
-					"jdbc:mysql://localhost/footballmatches?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-					"dw18", "dw18");	
-			if(request.getParameter("edit")!=null) 
-			{
-				String name=request.getParameter("edit");
-		
-				String stadium,wonLeagues,shirtColor;
-		
-				PreparedStatement pstmt=null; // create statement
-				
-				pstmt=con.prepareStatement("select * from teams where name=?"); // sql select query
-				pstmt.setString(1,name);
-				ResultSet rs=pstmt.executeQuery(); // execute query store in resultset object rs.
-				
-				while(rs.next()) 
-				{
-					stadium=rs.getString(2);
-					wonLeagues=rs.getString(3);
-					shirtColor=rs.getString(4);
+		<form method="post" name="myform"">
+
+			<h1>Update</h1>
+
+			<table>
+				<%
+					try {
+						Class.forName("com.mysql.jdbc.Driver"); //load driver  
+
+						Connection con = DriverManager.getConnection(
+								"jdbc:mysql://localhost/footballmatches?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+								"dw18", "dw18");
+						if (request.getParameter("edit") != null) {
+
+							PreparedStatement pstmt = null; // create statement
+							switch (request.getParameter("selection")) {
+
+							case "teams":
+								String name = request.getParameter("edit");
+								pstmt = con.prepareStatement("select * from teams where name=?"); // sql select query
+								pstmt.setString(1, name);
+								ResultSet rs = pstmt.executeQuery(); // execute query store in resultset object rs.
+								rs.first();
+								String stadium = rs.getString(2);
+								int wonLeagues = rs.getInt(3);
+								String shirtColor = rs.getString(4);
+				%>
+				<tr>
+					<td>Name</td>
+					<td><input type="text" name="txt_team_name" value="<%=name%>"></td>
+				</tr>
+
+				<tr>
+					<td>Stadium</td>
+					<td><input type="text" name="txt_team_stadiumr"
+						value="<%=stadium%>"></td>
+				</tr>
+
+				<tr>
+					<td>Won Leagues</td>
+					<td><input type="text" name="txt_team_leagues"
+						value="<%=wonLeagues%>"></td>
+				</tr>
+
+				<tr>
+					<td>Shirt Color</td>
+					<td><input type="text" name="txt_team_shirt"
+						value="<%=shirtColor%>"></td>
+				</tr>
+
+				<tr>
+					<td><input type="submit" name="btn_update_teams"
+						value="Update"></td>
+				</tr>
+
+			</table>
+			<a href="index.jsp?selection=teams"><input type="button"
+				value="Back"></a>
+
+
+			<%
+				break;
+						case "players":
+							String name2 = request.getParameter("edit");
+							pstmt = con.prepareStatement("select * from players where name=?"); // sql select query
+							pstmt.setString(1, name2);
+							ResultSet rs2 = pstmt.executeQuery(); // execute query store in resultset object rs.
+							rs2.next();
+							String team = rs2.getString(2);
+							int age = rs2.getInt(3);
+							int height = rs2.getInt(4);
 			%>
 			<tr>
 				<td>Name</td>
-				<td><input type="text" name="txt_team_name" value="<%=name%>"></td>
+				<td><input type="text" name="txt_player_name"
+					value="<%=name2%>"></td>
+			</tr>
+
+			<tr>
+				<td>Team</td>
+				<td><input type="text" name="txt_player_team" value="<%=team%>"></td>
+			</tr>
+
+			<tr>
+				<td>Age</td>
+				<td><input type="text" name="txt_player_age" value="<%=age%>"></td>
+			</tr>
+
+			<tr>
+				<td>Height</td>
+				<td><input type="text" name="txt_player_height"
+					value="<%=height%>"></td>
+			</tr>
+
+			<tr>
+				<td><input type="submit" name="btn_update_players"
+					value="Update"></td>
+			</tr>
+			<input type="hidden" name="matchID">
+			</table>
+			<a href="index.jsp?selection=players"><input type="button"
+				value="Back"></a>
+
+
+			<%
+				break;
+						case "matches":
+							int matchID = Integer.parseInt(request.getParameter("edit"));
+							pstmt = con.prepareStatement("select * from matches where matchID=?"); // sql select query
+							pstmt.setInt(1, matchID);
+							ResultSet rs3 = pstmt.executeQuery(); // execute query store in resultset object rs.
+							rs3.next();
+							
+							String localTeam = rs3.getString(2);
+							int goalsLocal = rs3.getInt(4);
+							String visitorTeam = rs3.getString(3);
+							int goalsVisitor = rs3.getInt(5);
+			%>
+			<tr>
+				<td>Local team</td>
+				<td><input type="text" name="txt_matches_lteam"
+					value="<%=localTeam%>"></td>
+			</tr>
+
+			<tr>
+				<td>Goals local</td>
+				<td><input type="text" name="txt_matches_lgoals"
+					value="<%=goalsLocal%>"></td>
+			</tr>
+
+			<tr>
+				<td>Goals visitor</td>
+				<td><input type="text" name="txt_matches_vgoals"
+					value="<%=goalsVisitor%>"></td>
+			</tr>
+
+			<tr>
+				<td>Visitor team</td>
+				<td><input type="text" name="txt_matches_vteam"
+					value="<%=visitorTeam%>"></td>
+			</tr>
+
+			<tr>
+				<td><input type="submit" name="btn_update_matches"
+					value="Update"></td>
 			</tr>
 			
-			<tr>
-				<td>Stadium</td>
-				<td><input type="text" name="txt_team_stadiumr" value="<%=stadium%>"></td>
-			</tr>
-			
-			<tr>
-				<td>Won Leagues</td>
-				<td><input type="text" name="txt_team_leagues" value="<%=wonLeagues%>"></td>
-			</tr>
-			
-			<tr>
-				<td>Shirt Color</td>
-				<td><input type="text" name="txt_team_shirt" value="<%=shirtColor%>"></td>
-			</tr>	
-			
-			<tr>
-				<td><input type="submit" name="btn_update" value="Update"></td>	
-			</tr>
-				
-				<!--  <input type="hidden" name="txt_hide" value="<%=name%>"> -->
-		<%
+				<input type="hidden" name="txt_matches_matchID"
+					value="<%=matchID%>">	
+
+			</table>
+
+			<a href="index.jsp?selection=teams"><input type="button"
+				value="Back"></a>
+			<%
+				break;
+						}
+					}
+				} catch (Exception e) {
+					out.println(e);
 				}
-			}
-		}
-		catch(Exception e)
-		{
-			out.println(e);
-		}
-		%>	
-		</table>
-		
-	
-				<h1><a href="index.jsp"><input type="button" value="Back"></a></h1>
-	
-		
-	</form>
+			%>
+
+		</form>
 
 	</div>
-	
-	
-		
 
 </body>
 

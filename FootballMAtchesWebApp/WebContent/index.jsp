@@ -1,47 +1,28 @@
 <%@page import="java.sql.*"%>
+<%@page import="com.zubiri.matches.*"%>
 
 <%
-try
-{	
-	Class.forName("com.mysql.jdbc.Driver");  //load driver 
-	
-	Connection con = DriverManager.getConnection(
-			"jdbc:mysql://localhost/footballmatches?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-			"dw18", "dw18");
-	if(request.getParameter("delete")!=null)
-	{
-		String name=request.getParameter("delete");
+	try {
 		
-		PreparedStatement pstmt=null; //create statement
-	switch(request.getParameter("selection")){
-	case "teams":
-		pstmt=con.prepareStatement("delete from teams where name=? "); //sql delete query
-		pstmt.setString(1,name);
-		pstmt.executeUpdate(); //execute query
-		
-		con.close(); //close connection
-		break;
-	case "players":
-		pstmt=con.prepareStatement("delete from players where name=? "); //sql delete query
-		pstmt.setString(1,name);
-		pstmt.executeUpdate(); //execute query
-		
-		con.close(); //close connection
-		break;
-	case "matches":
-		pstmt=con.prepareStatement("delete from matches where matchID=? "); //sql delete query
-		pstmt.setString(1,name);
-		pstmt.executeUpdate(); //execute query
-		
-		con.close(); //close connection
-		break;
+		if (request.getParameter("delete") != null) {
+			
+			String name = request.getParameter("delete");
+
+			switch (request.getParameter("selection")) {
+			case "teams":
+				Connect.deleteTeam(name);
+				break;
+			case "players":
+				Connect.deletePlayer(name);
+				break;
+			case "matches":
+				Connect.deleteMatch(name);
+				break;
+			}
+		}
+	} catch (Exception e) {
+		out.println(e);
 	}
-	}
-}
-catch(Exception e)
-{
-	out.println(e);
-}
 %>
 <html>
 
@@ -80,59 +61,155 @@ td {
 		<table>
 
 			<tr>
+				<%
+					switch (request.getParameter("selection")) {
+					case "teams":
+				%>
 				<th>Name</th>
 				<th>Stadium</th>
 				<th>Won Leagues</th>
 				<th>Shirt Color</th>
+
+				<%
+					break;
+					case "players":
+				%>
+
+				<th>Name</th>
+				<th>Team</th>
+				<th>Age</th>
+				<th>Height</th>
+
+				<%
+					break;
+					case "matches":
+				%>
+
+				<th>Local team</th>
+				<th>Goals local</th>
+				<th>Goals visitor</th>
+				<th>Visitor team</th>
+				<%
+					break;
+					}
+				%>
 				<th>Edit</th>
 				<th>Delete</th>
 			</tr>
 			<%
-		
-		try
-		{	
-			Class.forName("com.mysql.jdbc.Driver");  //load driver 
-			
-			Connection con = DriverManager.getConnection(
-					"jdbc:mysql://localhost/footballmatches?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-					"dw18", "dw18");
-			PreparedStatement pstmt=null; //create statement
-		
-			pstmt=con.prepareStatement("select * from teams"); //sql select query  
-			
-			ResultSet rs=pstmt.executeQuery(); //execute query and set in resultset object rs.  
-		
-			while(rs.next())
-			{	
-		%>
+				try {
+
+						ResultSet rs = null;
+
+					switch (request.getParameter("selection")) {
+					case "teams":
+						rs =Connect.getTeams();
+						
+						break;
+
+					case "players":
+						rs =Connect.getPlayers();
+					
+						break;
+
+					case "matches":
+						rs =Connect.getMatches();
+						
+						break;
+					}
+
+				
+
+					while (rs.next()) {
+			%>
 			<tr>
+				<%
+					switch (request.getParameter("selection")) {
+							case "teams":
+				%>
+
 				<td><%=rs.getString(1)%></td>
 				<td><%=rs.getString(2)%></td>
 				<td><%=rs.getInt(3)%></td>
 				<td><%=rs.getString(4)%></td>
 
-				<td><a href="update.jsp?edit=<%=rs.getString(1)%> ">Modify</a></td>
-				<td><a href="?delete=<%=rs.getString(1)%> ">Delete</a></td>
+				<td><a
+					href="update.jsp?edit=<%=rs.getString(1)%>&selection=teams ">Modify</a></td>
+				<td><a href="?delete=<%=rs.getString(1)%>&selection=teams ">Delete</a></td>
+				<%
+					break;
+							case "players":
+								
+				%>
+				<td><%=rs.getString(1)%></td>
+				<td><%=rs.getString(2)%></td>
+				<td><%=rs.getInt(3)%></td>
+				<td><%=rs.getInt(4)%></td>
 
+				<td><a
+					href="update.jsp?edit=<%=rs.getString(1)%>&selection=players">Modify</a></td>
+				<td><a href="?delete=<%=rs.getString(1)%>&selection=players">Delete</a></td>
+				<%
+					break;
+							case "matches":
+				%>
+
+				<td><%=rs.getString(2)%></td>
+				<td><%=rs.getInt(4)%></td>
+				<td><%=rs.getInt(5)%></td>
+				<td><%=rs.getString(3)%></td>
+
+
+				<td><a
+					href="update.jsp?edit=<%=rs.getInt(1)%>&selection=matches ">Modify</a></td>
+				<td><a href="?delete=<%=rs.getInt(1)%>&selection=matches">Delete</a></td>
+
+				<%
+					break;
+							}
+				%>
 			</tr>
 			<%
-			}
-			
-		}
-		catch(Exception e)
-		{
-			out.println(e);
-		}
-		
-		%>
+				}
+
+				} catch (Exception e) {
+					out.println(e);
+				}
+			%>
 
 		</table>
 
 		<h1>
-			<a href="add.jsp"><input type="button" value="Add new team"></a>
+			<%
+				switch (request.getParameter("selection")) {
+				case "teams":
+			%>
+			<a href="add.jsp?selection=teams"><input type="button"
+				value="Add new team"></a>
+
+			<%
+				break;
+				case "players":
+			%>
+
+			<a href="add.jsp?selection=players"><input type="button"
+				value="Add new player"></a>
+			<%
+				break;
+				case "matches":
+			%>
+
+			<a href="add.jsp?selection=matches"><input type="button"
+				value="Add new match"></a>
+			<%
+				break;
+				}
+			%>
 		</h1>
 
-
+		<h1>
+			<a href="select.jsp"><input type="button" value="Main menu"></a>
+		</h1>
 	</div>
 
 </body>
