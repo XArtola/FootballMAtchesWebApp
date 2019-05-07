@@ -12,26 +12,10 @@
 			team.setStadium(request.getParameter("txt_team_stadium"));
 			team.setWonLeagues(Integer.parseInt(request.getParameter("txt_team_leagues")));
 			team.setShirtColor(request.getParameter("txt_team_shirt"));
+			Connect.modifyTeam(team);
 			
-			/*
-			Class.forName("com.mysql.jdbc.Driver"); //load driver 
-
-			Connection con = DriverManager.getConnection(
-					"jdbc:mysql://localhost/footballmatches?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-					"dw18", "dw18");
-			PreparedStatement pstmt = null; //create statement  
-
-			pstmt = con.prepareStatement(
-					"update teams set name=?, stadium=?, wonLeagues=?, shirtColor=? where name=?"); //sql update query 
-			pstmt.setString(1, request.getParameter("txt_team_name"));
-			pstmt.setString(2, request.getParameter("txt_team_stadium"));
-			pstmt.setInt(3, Integer.parseInt(request.getParameter("txt_team_leagues")));
-			pstmt.setString(4, request.getParameter("txt_team_shirt"));
-			pstmt.setString(5, request.getParameter("txt_team_name"));
-			pstmt.executeUpdate(); //execute query
-			con.close(); //connection close
+			out.println("Update Successfully...! Click Back link."); //after update record successfully message
 			
-			*/
 		}
 		if (request.getParameter("btn_update_players") != null) //check button click event not null
 		{
@@ -44,6 +28,8 @@
 			player.setHeight(Integer.parseInt(request.getParameter("txt_player_height")));
 			
 			Connect.modifyPlayer(player);
+			
+			out.println("Update Successfully...! Click Back link."); //after update record successfully message
 
 		}
 		if (request.getParameter("btn_update_matches") != null) //check button click event not null
@@ -64,26 +50,6 @@
 			
 			Connect.addMatch(match);
 			
-			/*
-			Class.forName("com.mysql.jdbc.Driver"); //load driver 
-
-			Connection con = DriverManager.getConnection(
-					"jdbc:mysql://localhost/footballmatches?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-					"dw18", "dw18");
-
-			PreparedStatement pstmt_matches = null; //create statement  
-
-			pstmt_matches = con.prepareStatement(
-					"update matches set localTeam=?, visitorTeam=?, goalsLocal=?, goalsVisitor=? where matchID=?"); //sql update query 
-			pstmt_matches.setInt(1, Integer.parseInt(request.getParameter("txt_matches_matchID")));
-			pstmt_matches.setString(2, request.getParameter("txt_matches_vteam"));
-			pstmt_matches.setInt(3, Integer.parseInt(request.getParameter("txt_matches_vgoals")));
-			pstmt_matches.setInt(4, Integer.parseInt(request.getParameter("txt_matches_lgoals")));
-			pstmt_matches.setInt(5, Integer.parseInt(request.getParameter("txt_matches_matchID")));
-			pstmt_matches.executeUpdate(); //execute query
-
-			con.close(); //connection close
-			*/
 			out.println("Update Successfully...! Click Back link."); //after update record successfully message
 
 		}
@@ -164,7 +130,7 @@ td {
 
 				<tr>
 					<td>Stadium</td>
-					<td><input type="text" name="txt_team_stadiumr"
+					<td><input type="text" name="txt_team_stadium"
 						value="<%=stadium%>"></td>
 				</tr>
 
